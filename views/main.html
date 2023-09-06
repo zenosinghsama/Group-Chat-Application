@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Chat Application</title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+        }
+        .chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .chat-messages {
+            border: 1px solid #ddd;
+            min-height: 300px;
+            padding: 10px;
+            overflow-y: scroll;
+        }
+        .chat-input {
+            display: flex;
+        }
+        .chat-input input[type="text"] {
+            flex: 1;
+            padding: 10px;
+        }
+        .chat-input button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <h2>Group Chat</h2>
+        <div class="chat-messages" id="chat-messages">
+
+        </div>
+        <div class="chat-input">
+            <input type="text" id="message" class="messageInput" placeholder="Enter Message Here..." required>
+            <button id="send">Send</button>
+        </div>    
+    </div>
+    
+
+</body>
+</html>
