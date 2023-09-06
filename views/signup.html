@@ -4,30 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Group Chat Application</title>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+    <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
-    <h1>Welcome To Group Chat Application</h1>
-    <h3>Create Your Account Now!</h3>
 
-    <div class="container">
-        <form id="signup_form">
-            <label for="name">Name</label>
-            <input type="text" id="nameInput" placeholder="Enter Your Name">
-            <label for="email">Email</label>
-            <input type="email" id="emailInput" placeholder="Enter Your Email">
-            <label for="phonenumber">Phone Number</label>
-            <input type="number" id="phoneInput" placeholder="Enter Your Phone Number">
-            <label for="password">Password</label>
-            <input type="password" id="passwordInput" placeholder="Enter Your Password">
+    <main class="main">
+        <div class="container">
+            <section class="wrapper">
+                <div class="heading">
+                    <h1 class="text text-large">Create Account</h1>
+                    <p class="text text-normal">Existing User? <span><a href="#" class="text text-links">Login Here</a> </span></p>
+                </div>
+                <form id="signup_form" class="form">
+                    <div class="input-control">
+                        <label for="name" class="input-label" hidden>Name</label>
+                        <input type="text" name="name" id="nameInput" placeholder="Enter Name" required>
+                    </div>
+                   
+                    <div class="input-control">
+                        <label for="email" class="input-label" hidden>Email</label>
+                    <input type="email" name="email" id="emailInput" placeholder="Enter Your Email" required>
+                    </div>
+                    
+                    <div class="input-control">
+                        <label for="phonenumber" class="input-label" hidden>Phone Number</label>
+                        <input type="number" name="phoneNumber" id="phoneInput" placeholder="Enter Your Phone Number" required>
+                    </div>
+                   
+                    <div class="input-control">
+                        <label for="password" class="input-label" hidden>Password</label>
+                        <input type="password" name="password" id="passwordInput" placeholder="Enter Your Password" required>
+                    </div>
+                    
+                    <div class="input-control">
+                        <button type="submit" name="submit" class="button-submit">Create Account</button>
+                    </div>
+                </form>
 
-            <button type="submit" class="signup_submit">
-                <span class="button_text">Create Account</span>
-            </button>
-        </form>
-    
-        <p>Already have an account?</p>
-    </div>
+                <div class="striped">
+                    <span class="striped-line"></span>
+                    <span class="striped-text">OR</span>
+                    <span class="striped-line"></span>
+                </div>
+
+                <div class="method">
+                    <div class="method-control">
+                        <a href="#" class="method-action">
+                            <i class="fa-brands fa-google"></i>
+                            <span>Sign Up with Google</span>
+                        </a>
+                    </div>
+
+                    <div class="method-control">
+                        <a href="#" class="method-action">
+                            <i class="fa-brands fa-facebook"></i>
+                            <span>Sign Up with Facebook</span>
+                        </a>
+                    </div>
+
+                    <div class="method-control">
+                        <a href="#" class="method-action">
+                            <i class="fa-brands fa-apple"></i>
+                            <span>Sign Up with Apple</span>
+                        </a>
+                    </div>
+
+                </div>
+
+            </section>
+        </div>
+    </main>
     
     <script src="/js/signup.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
 </body>
 </html>

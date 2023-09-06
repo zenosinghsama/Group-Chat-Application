@@ -6,7 +6,8 @@ document.getElementById("signup_form").addEventListener("submit", async(e) => {
     const password = document.getElementById("passwordInput").value;
 
     if(name === "" || email === "" || phoneNumber === "" || password === "") {
-        throw new Error("Please Fill all the fields");
+        alert("ALL FIELDS MANDATORY");
+        return;
     }
 
     const obj = {
@@ -17,12 +18,14 @@ document.getElementById("signup_form").addEventListener("submit", async(e) => {
     }
 
     try {
-        const response = await axios.post("", {obj})
+        const response = await axios.post("/user/signup", obj)
 
+        console.log(obj);
     if(response.status === 201) {
+        alert("SUCCESSFULLY SIGNED UP")
         window.location.href = "/login.html";
     } else {
-        throw new Error("ERROR CREATING USER");
+        console.error("ERROR CREATING USER", response.status);
     }
 } catch (err) {
     console.log(err);
