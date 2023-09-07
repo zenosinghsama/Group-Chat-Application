@@ -5,38 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Group Chat Application</title>
     <link rel="stylesheet" href="/css/main.css" />
-    <style>
-         body {
-            font-family: Arial, sans-serif;
-        }
-        .chat-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .chat-messages {
-            border: 1px solid #ddd;
-            min-height: 300px;
-            padding: 10px;
-            overflow-y: scroll;
-        }
-        .chat-input {
-            display: flex;
-        }
-        .chat-input input[type="text"] {
-            flex: 1;
-            padding: 10px;
-        }
-        .chat-input button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
 
@@ -50,7 +18,21 @@
             <button id="send">Send</button>
         </div>    
     </div>
+
+    <div class="waveWrapper waveAnimation">
+        <div class="waveWrapperInner bgTop">
+          <div class="wave waveTop" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-top.png')"></div>
+        </div>
+        <div class="waveWrapperInner bgMiddle">
+          <div class="wave waveMiddle" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-mid.png')"></div>
+        </div>
+        <div class="waveWrapperInner bgBottom">
+          <div class="wave waveBottom" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-bot.png')"></div>
+        </div>
+      </div>
     
+    <script src="/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
 
 </body>
 </html>
