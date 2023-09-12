@@ -10,12 +10,20 @@ document.addEventListener("DOMContentLoaded", async() => {
             return (window.location.href = "/login.html");     
         }
 
+        const storedMessages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+        const recentMessages = storedMessages.slice(-MaxChatMsg);
+
+        recentMessages.forEach((messageObj) => {
+            const messageText = messageObj.message;
+            const isSentByCurrentUser = messageObj.userId === localStorage.getItem("ID");
+            showMessageOnScreen(messageText, isSentByCurrentUser);
+        });
+
         await fetchAndDisplayMsg();
     } catch(err) {
         console.log("NO TOKEN FOUND", err);
     }
 });
-
 
 
 //FETCH MESSAGE FROM DB
@@ -29,22 +37,57 @@ async function fetchAndDisplayMsg() {
             }
         });
 
-        const messages = response.data.allMessages;
-        console.log(messages);
+        const newMessages = response.data.allMessages.filter((messageObj) => {
+            return !isMessageInLocalStorage(messageObj);
+        });
 
-        chatBox.innerHTML = "";
-
-        messages.forEach((messageObj) => {
+        newMessages.forEach((messageObj) => {
             const messageText = messageObj.message;
             const isSentByCurrentUser = messageObj.userId === localStorage.getItem("ID");
             showMessageOnScreen(messageText, isSentByCurrentUser);
+
+            addToLocalStorage(messageObj);
         }) ;
     } catch (err) {
         console.log("ERROR IN FETCHING MESSAGE", err);
     }
 }
 
-setInterval(fetchAndDisplayMsg, 1000);
+async function fetchAndDisplayNewMsg() {
+    try {
+        // ...
+
+        newMessages.forEach((messageObj) => {
+            const messageText = messageObj.message;
+            const isSentByCurrentUser = messageObj.userId === localStorage.getItem("ID");
+            showMessageOnScreen(messageText, isSentByCurrentUser);
+
+            // Add the new message to local storage
+            addToLocalStorage(messageObj);
+        });
+    } catch (err) {
+        console.log("ERROR IN FETCHING MESSAGE", err);
+    }
+}
+
+// setInterval(fetchAndDisplayMsg, 1000);
+const MaxChatMsg = 10;
+function isMessageInLocalStorage(messageObj) {
+    const storedMessages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+
+    if(storedMessages.length >= MaxChatMsg) {
+        storedMessages.shift();
+    }
+
+    storedMessages.push(messageObj);
+    localStorage.setItem("chatMessages", JSON.stringify(storedMessages));
+}
+
+function addToLocalStorage(messageObj) {
+    const storedMessages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+    storedMessages.push(messageObj);
+    localStorage.setItem("chatMessages", JSON.stringify(storedMessages));
+}
 
 //SHOW MSG ON SCREEN
 function showMessageOnScreen(message, isSentByCurrentUser) {
@@ -84,10 +127,10 @@ function showMessageOnScreen(message, isSentByCurrentUser) {
 
         messageInput.value = "";
 
-        let newMessage = response.data.newAddedMessage.message;
-
+        const newMessage = response.data.newAddedMessage.message;
         showMessageOnScreen(newMessage, true);
-        console.log(response.data.newAddedMessage)
+
+        addToLocalStorage(response.data.newAddedMessage);
         
     } catch (err) {
         alert("ERROR IN SAVING MESSAGE TO DB");
