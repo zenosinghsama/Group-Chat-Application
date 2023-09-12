@@ -1,21 +1,66 @@
 const messageInput = document.getElementById("message");
 const sendBtn = document.getElementById("send");
-const chatMsg = document.getElementById("chat-message");
-
+const chatMsg = document.getElementById("chat-messages");
 
 document.addEventListener("DOMContentLoaded", async() => {
-    
     try {
-        const token = localStorage.getItem("token");
-        const decodedToken = parseJwt(token);
+        const token = localStorage.getItem("Token");
 
         if(!token) {
-            return (window.location.href = "/view/login.html");
+            return (window.location.href = "/login.html");     
         }
+
+        await fetchAndDisplayMsg();
     } catch(err) {
         console.log("NO TOKEN FOUND", err);
     }
 });
+
+//FETCH MESSAGE FROM DB
+async function fetchAndDisplayMsg() {
+    try {
+        const token = localStorage.getItem("Token");
+
+        const response = await axios.get("/messages", {
+            headers : {
+                Authorization : `${token}`
+            }
+        });
+
+        const messages = response.data.allMessages;
+        console.log(messages);
+
+        chatBox.innerHTML = "";
+
+        messages.forEach((messageObj) => {
+            const messageText = messageObj.message;
+            console.log(messageText)
+            showMessageOnScreen(messageText);
+        }) ;
+    } catch (err) {
+        console.log("ERROR IN FETCHING MESSAGE", err);
+    }
+}
+
+//SHOW MSG ON SCREEN
+function showMessageOnScreen(message, isSentByCurrentUser) {
+    const username = localStorage.getItem("name");
+    const chatBox = document.getElementById("chatBox");
+    const messageContainer = document.createElement("div");
+    messageContainer.className =  isSentByCurrentUser ? "message sent" : "message received";
+
+    const userNameSpan = document.createElement("span");
+    userNameSpan.className = "username";
+    userNameSpan.textContent = username;
+
+    const messageBubble = document.createElement("div");
+    messageBubble.textContent = message;
+
+    messageContainer.appendChild(userNameSpan);
+    messageContainer.appendChild(messageBubble);
+
+    chatBox.appendChild(messageContainer);
+}
 
  //SAVE TO DB
  async function saveToDB(message) {
@@ -24,23 +69,21 @@ document.addEventListener("DOMContentLoaded", async() => {
         message : message
     };
 
-    console.log(data, "MESSAGE");
     try {
-        const token = localStorage.getItem("token");
-        
-        console.log("TOken" , token);
+        const token = localStorage.getItem("Token");
 
         const response = await axios.post("/sendMessage", data, {
             headers: {
-                Authorization : token,
+                Authorization : `${token}`,
             }
         });
 
-        alert("MESSAGE SAVED TO DB");
-
         messageInput.value = "";
 
-        showMessageOnScreen(response.data.newMessage);
+        let newMessage = response.data.newAddedMessage.message;
+
+        showMessageOnScreen(newMessage, true);
+        console.log(response.data.newAddedMessage)
         
     } catch (err) {
         alert("ERROR IN SAVING MESSAGE TO DB");
@@ -55,18 +98,4 @@ sendBtn.addEventListener("click", function() {
     }
 });
 
-//JWT TOKEN PARSER
-function parseJwt(token) {
-    var base64Url = token.split(".")[1];
-    var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    var jsonPayload = decodeURIComponent(
-      window
-        .atob(base64)
-        .split("")
-        .map(function (c) {
-          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        })
-        .join("")
-    );
-    return JSON.parse(jsonPayload);
-  }
+
