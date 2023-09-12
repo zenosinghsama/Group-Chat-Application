@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", async() => {
     }
 });
 
+
+
 //FETCH MESSAGE FROM DB
 async function fetchAndDisplayMsg() {
     try {
@@ -34,13 +36,15 @@ async function fetchAndDisplayMsg() {
 
         messages.forEach((messageObj) => {
             const messageText = messageObj.message;
-            console.log(messageText)
-            showMessageOnScreen(messageText);
+            const isSentByCurrentUser = messageObj.userId === localStorage.getItem("ID");
+            showMessageOnScreen(messageText, isSentByCurrentUser);
         }) ;
     } catch (err) {
         console.log("ERROR IN FETCHING MESSAGE", err);
     }
 }
+
+setInterval(fetchAndDisplayMsg, 1000);
 
 //SHOW MSG ON SCREEN
 function showMessageOnScreen(message, isSentByCurrentUser) {
