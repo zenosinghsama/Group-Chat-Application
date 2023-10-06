@@ -1,11 +1,9 @@
 const chatModel = require("../model/chatModel");
 
 //GET MESSAGE
-const getMessages = async(req, res, next) => {
+const getMessages = async (req, res, next) => {
     try {
-        const userId = req.user.id;
-        const allMessages = await chatModel.findAll({ where: { userId }});
-
+        const allMessages = await chatModel.findAll();
         res.status(200).json({ allMessages: allMessages })
     } catch(err) {
         console.log(`ERROR IN FETCHING MESSAGES`, JSON.stringify(err));
@@ -16,8 +14,7 @@ const getMessages = async(req, res, next) => {
 const addNewMessage = async(req, res, next) => {
     const { message } = req.body;
     const userId = req.user.id;
-
-    console.log("USERID", userId, message);
+    const name = req.user.name;
 
     try {
         if (message == undefined || message.length === 0) {
@@ -25,7 +22,7 @@ const addNewMessage = async(req, res, next) => {
         }
 
         const newMessage = await chatModel.create({
-            message, userId
+            message, userId, name
         });
 
         return res.status(200).json({ newAddedMessage: newMessage});

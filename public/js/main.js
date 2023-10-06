@@ -1,143 +1,22 @@
 const messageInput = document.getElementById("message");
 const sendBtn = document.getElementById("send");
 const chatBox = document.getElementById("chatBox");
-const groupDropDown = document.getElementById("groupDropDown");
+const groupId = getGroupIdFromQueryString();
 
 let token = localStorage.getItem("Token");
 let decodedToken = parseJwt(token);
 let userName = decodedToken.name;
-let selectedGroup = null;
-
-// DOM CONTENT
-document.addEventListener("DOMContentLoaded", async () => {
-    try {
-        const token = localStorage.getItem("Token");
-
-        if (!token) {
-            return (window.location.href = "/login.html");
-        }
-
-        const joinMessage = `${userName} joined the chat`;
-        showMessageOnScreen(joinMessage);
-
-        await fetchAndDisplayMsg();
-    } catch (err) {
-        console.log("NO TOKEN FOUND", err);
-    }
-});
 
 
-// FETCH MESSAGE FROM DB
-async function fetchAndDisplayMsg() {
-    try {
-        const token = localStorage.getItem("Token");
+const socket = io();
 
-        const response = await axios.get("/messages", {
-            headers: {
-                Authorization: `${token}`,
-            },
-        });
+// SIDEBAR EVENT LISTENER
+const sidebar = document.getElementById("sidebar");
+const menuButton = document.getElementById("menu-button");
 
-        const newMessages = response.data.allMessages;
-
-        newMessages.forEach((messageObj) => {
-            const senderName = messageObj.name;
-            console.log("SENDER NAME ",senderName);
-            const messageText = messageObj.message;
-            const isSentByCurrentUser =
-                messageObj.userId === localStorage.getItem("ID");
-            showMessageOnScreen(senderName, messageText, isSentByCurrentUser);
-        });
-    } catch (err) {
-        console.log("ERROR IN FETCHING MESSAGE", err);
-    }
-}
-
-
-// SHOW MSG ON SCREEN
-function showMessageOnScreen(senderName, message, messageType ,isSentByCurrentUser) {
-    const messageContainer = document.createElement("div");
-    messageContainer.className = "message";
-
-    const messageText = document.createElement("div");
-    messageText.textContent = message;
-
-    const messageBubble = document.createElement("div");
-    messageBubble.textContent = message;
-
-    if(messageType === "join") {
-        const joinMessage = document.createElement("div");
-        joinMessage.className = "join-message";
-        joinMessage.textContent = `${senderName} joined the chat`
-
-        messageContainer.appendChild(joinMessage);
-    } else {
-
-        if (isSentByCurrentUser) {
-        const userNameSpan = document.createElement("span");
-        userNameSpan.className = "username current-user";
-        userNameSpan.textContent = userName;
-
-        messageContainer.appendChild(userNameSpan);
-    } else {
-        const senderUserName = document.createElement("div");
-        senderUserName.className = "username";
-        senderUserName.textContent = senderName;
-
-        messageContainer.appendChild(senderUserName);
-    }
-    }
-    messageContainer.appendChild(messageText);
-    chatBox.appendChild(messageContainer);
-}
-
-// SAVE TO DB
-async function saveToDB(message) {
-
-    if (message === "User joined the chat") {
-        message = `${userName} joined the chat`;
-    }
-
-    const data = {
-        message: message
-    };
-
-    try {
-        const token = localStorage.getItem("Token");
-
-        const response = await axios.post("/sendMessage", data, {
-            headers: {
-                Authorization: `${token}`,
-            },
-        });
-
-        messageInput.value = "";
-
-        const newMessage = response.data.newAddedMessage.message;
-        const name = response.data.newAddedMessage.name;
-  
-        showMessageOnScreen(name, newMessage, true);
-    } catch (err) {
-        alert("ERROR IN SAVING MESSAGE TO DB");
-        console.log(err);
-    }
-}
-
-async function joinChat() {
-    try {
-        const joinMessage = `${userName} joined the chat`;
-
-        await saveToDB(joinMessage, "join");
-    } catch(err) {
-        console.log("ERROR JOINING CHAT", err);
-    }
-}
-
-sendBtn.addEventListener("click", function () {
-    const message = messageInput.value.trim();
-    if (message !== "") {
-        saveToDB(message, "message");
-    }
+menuButton.addEventListener("click", () => {
+    menuButton.classList.toggle("active");
+    sidebar.classList.toggle("active");
 });
 
 //PARSE TOKEN 
@@ -155,3 +34,145 @@ function parseJwt(token) {
     );
     return JSON.parse(jsonPayload);
   }
+
+  //GET GROUP ID
+  function getGroupIdFromQueryString() {
+    const queryParams = new URLSearchParams(window.location.search);
+    return queryParams.get("groupId");
+  }
+
+  //EVENT LISTENER SEND BUTTON
+  sendBtn.addEventListener("click", function () {
+    const message = messageInput.value.trim();
+    append(`You: ${message}`, 'right', null);
+    socket.emit('sendMessage', message);
+    if (message !== "") {
+        saveToDB(message);
+    }
+});
+
+//APPEND
+const append = (message, position, userName) => {
+    const messageElement = document.createElement("div");
+    if(userName === null) {
+        messageElement.innerText = message;
+    } else {
+    messageElement.innerText = `${userName} : ${message}`;
+    }
+    messageElement.classList.add('message')
+    messageElement.classList.add(position);
+    chatBox.append(messageElement);
+}
+
+// DOM CONTENT
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const token = localStorage.getItem("Token");
+        console.log(token);
+
+        if (!token) {
+            return (window.location.href = "/login.html");
+        }
+
+        const userJoinedFlag = localStorage.getItem("userJoinedFlag");
+
+        if(!userJoinedFlag) {
+            append(`${userName} joined the chat`, 'right', null);
+
+            localStorage.setItem("userJoinedFlag", "true");
+        }
+        
+        socket.emit('new-user-joined', userName);
+
+        socket.on('user-joined', joinedUserName => {
+            if(joinedUserName === userName) {
+                append("You joined the chat", 'center', null)
+            } else {
+                append(`${userName} joined the chat`, 'center', null)
+            }
+        });
+
+        socket.on('receivedMessage', data => {
+            append(`${data.userName} : ${data.message}`, 'left', null)
+        });
+
+        socket.on('left', userName => {
+            append(`${userName} left the chat`, 'right', null)
+        });
+
+        await fetchAndDisplayMsg();
+    } catch (err) {
+        console.log("NO TOKEN FOUND", err);
+    }
+});
+
+// FETCH MESSAGE FROM DB
+async function fetchAndDisplayMsg() {
+    try {
+        const token = localStorage.getItem("Token");
+
+        const response = await axios.get("/messages", {
+            headers: {
+                Authorization: `${token}`,
+            },
+        });
+
+        const newMessages = response.data.allMessages;
+
+        //RETRIEVE MESSAGES FROM LOCAL STORAGE
+        const storedMessages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+
+        const combinedMessages = [...storedMessages, ...newMessages];
+        const uniqueMessages = combinedMessages.filter((message, index, self) => 
+            index === self.findIndex((m) => m.id === message.id)
+        );
+
+        uniqueMessages.slice(-10);
+
+        localStorage.setItem("chatMessages", JSON.stringify(uniqueMessages));
+
+        uniqueMessages.forEach((messageObj) => {
+            const messageText = messageObj.message;
+            const senderName = messageObj.name;
+
+            if(senderName === userName) {
+                append(messageText, 'right', "You");
+            } else {
+                 append(messageText, 'left', senderName);
+            }
+           
+        });
+
+    } catch (err) {
+        console.log("ERROR IN FETCHING MESSAGE", err);
+    }
+}
+
+// SAVE TO DB
+async function saveToDB(message) {
+
+    if (message === "User joined the chat") {
+        message = `${userName} joined the chat`;
+    }
+
+    const data = {
+        message: message,
+        groupId : groupId,
+    };
+
+    try {
+        const token = localStorage.getItem("Token");
+
+        const response = await axios.post("/sendMessage", data, {
+            headers: {
+                Authorization: `${token}`,
+            },
+        });
+
+        messageInput.value = "";
+
+    } catch (err) {
+        alert("ERROR IN SAVING MESSAGE TO DB");
+        console.log(err);
+    }
+}

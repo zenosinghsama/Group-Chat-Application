@@ -31,3 +31,4 @@ document.getElementById("signup_form").addEventListener("submit", async(e) => {
     console.log(err);
 }
 })
+

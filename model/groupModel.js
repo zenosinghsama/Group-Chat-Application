@@ -1,21 +1,26 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../util/database");
 
-const chatModel = sequelize.define('Message', {
+const groupModel = sequelize.define("groups", {
+
     id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
     },
-    message: {
-        type: Sequelize.STRING,
-        allowNull: false
-    }, 
     name: {
         type: Sequelize.STRING,
         allowNull: false,
     },
+    image: {
+        type: Sequelize.STRING,
+    },
+    limit: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+    },
+    
 });
 
-module.exports = chatModel;
+module.exports = groupModel;

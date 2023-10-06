@@ -4,14 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Group Chat Application</title>
+    <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" href="/css/main.css" />
 </head>
 <body>
 
+  <!-- SIDEBAR -->
+  <div id="sidebar" class="sidebar">
+    <ul>
+      <li><a href="/groupManagement.html">Home</a></li>
+      <br>
+      <li><a href="#">Log Out</a></li>
+    </ul>
+  </div>
+
+  <!-- HAMBURGER MENU -->
+  <div id="menu-button" class="menu-button">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+
+  <!-- CHAT CONTAINER -->
     <div class="chat-container">
         <h2>Group Chat</h2>
         <div class="chat-messages" id="chat-messages">
-
+          <div class="chatBox" id="chatBox">
+          </div>
         </div>
         <div class="chat-input">
             <input type="text" id="message" class="messageInput" placeholder="Enter Message Here..." required>
@@ -19,6 +38,7 @@
         </div>    
     </div>
 
+    <!-- WAVE PATTERN -->
     <div class="waveWrapper waveAnimation">
         <div class="waveWrapperInner bgTop">
           <div class="wave waveTop" style="background-image: url('http://front-end-noobs.com/jecko/img/wave-top.png')"></div>

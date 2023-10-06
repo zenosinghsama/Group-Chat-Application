@@ -35,6 +35,7 @@ const createNewUser = async(req, res, next) => {
     }
 }
 
+
 //GENERATE TOKEN
 const generateAccessToken = (id, name) => {
     return jwt.sign({ userId : id, name: name }, process.env.TOKEN_SECRET)
@@ -44,29 +45,28 @@ const generateAccessToken = (id, name) => {
 const postLogin = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-
+       
         const user = await User.findAll({ where: { email } });
 
-        if(user.length > 0) {
-            await bcrypt.compare(password, user[0].password, (err, result) => {
-                if(err) {
-                    throw new Error("Something Went Wrong");
-                }
-                if(result == true) {
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user[0].password);
+        
+            if(!isPasswordValid) {
+                return res.status(401).json({ message: "User not authorized" });
+            }
+                const token = generateAccessToken(user[0].id, user[0].name);
+
                     return res.status(200).json({ 
                     success: true,
                     message:"User Logged in successfully",
-                    token: generateAccessToken(user[0].id, user[0].name ),
-                    id: user[0].id
+                    token: token,
+                    id: user[0].id,
+                    name: user[0].name
                 });
-                }
-                else if(result == false) {
-                    return res.status(401).json({ message: "User not Authorized"});
-                }
-            });
-        } else {
-            return res.status(404).json({ message: "User not found" });
-        }
+                
     } catch(error) {
         console.error('Error logging in:', error);
         res.status(500).json({ error: 'Internal server error' });
