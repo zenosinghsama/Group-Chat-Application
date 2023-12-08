@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+
+<div id="app">
+    <header>
+        <!-- SIDEBAR TOGGLE BUTTON -->
+        <button id="sidebar-toggle">&#9776; </button>
+        <h1>Group Chat Application</h1>
+        <!-- USER INFO -->
+        <div id="user-info">
+            <!-- USER INFO GOES HERE-->
+        </div>
+    </header>
+
+    <!-- SIDEBAR -->
+    <div id="sidebar">
+        <div id="sidebar-header">
+            <h2>Menu</h2>
+            <button id="createGroupBtn" data-toggle="modal" data-target="#createGroupModal">+</button>
+        </div>
+        <hr class="responsive-divider">
+        <!-- USER LIST -->
+        <h3>Users</h3>
+        <div id="user-list">
+            <!-- USERS WILL APPEAR HERE -->
+        </div>
+        <hr class="responsive-divider">
+        <!-- CHAT ROOMS LIST -->
+        <h3>Groups</h3>
+        <div id="chat-rooms">
+            <!-- CHAT ROOMS WILL APPEAR HERE -->
+        </div>
+        <hr class="responsive-divider">
+        <!-- LOGOUT -->
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <main>
+        <section id="group-section">
+            <form onsubmit="createGroup(event)">
+                <input id="newGroupName" placeholder="Enter Group Name" required>
+                <button type="submit">Create Group</button>
+            </form>
+        </section>
+
+        <section id="chat-section">
+            <h2>Chat</h2>
+            <div id="chat-messages">
+                <!-- CHAT MESSAGES GO HERE -->
+            </div>
+            <div id="chatBox-container"></div>
+            <form onsubmit="sendMessage(event)">
+                <input id="newMessage" placeholder="Type your message...">
+                <button type="submit">Send</button>
+            </form>
+        </section>
+
+        <section id="notification-section">
+            <h2>Notifications</h2>
+            <ul>
+                <!-- NOTIFICATION GO HERE -->
+            </ul>
+        </section>
+    </main>
+
+    <!-- MODAL FOR CREATING A GROUP -->
+    <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createGroupModalLabel">Create Group</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form for creating a group goes here -->
+                    <form onsubmit="createGroupFromModal(event)">
+                        <div class="form-group">
+                            <label for="newGroupNameModal">Group Name:</label>
+                            <input type="text" class="form-control" id="newGroupNameModal" placeholder="Enter Group Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="groupImage">Group Image URL:</label>
+                            <input type="text" class="form-control" id="groupImage" placeholder="Enter Image URL">
+                        </div>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUsersModal" onclick="displayUsersInModal()">
+                            Add Users
+                        </button>
+                        <button type="submit" class="btn btn-primary">Create Group</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+
+<!-- ADD USERS MODAL -->
+<div class="modal fade" id="addUsersModal" tabindex="-1" role="dialog" aria-labelledby="addUsersModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addUsersToGroupModalLabel">Add users to the group</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Form for adding users to a group goes here -->
+                <form onsubmit="addUsersToNewGroup(event)" method="post">
+                    <input type="text" name="groupId" value="" hidden/>
+                    <div class="form-group">
+                        <label for="userInputField">Email or Username:</label>
+                        <input type="search" class="form-control" id="userIdOrUsername" placeholder="Enter Email or username..." required />
+                    </div>
+
+                    <!-- LIST OF USERS -->
+                    <ul class="list-group list-group-flush" id="usersList">
+                        <!-- USERS WILL BE ADDED HERE -->
+                    </ul>
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" onclick="addUsersToNewGroup(event)">Submit</button>
+            </div>
+    </div>
+</div>
+</div>
+ 
+    <script src="/js/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+</body>
+</html>

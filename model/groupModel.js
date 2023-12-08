@@ -1,26 +1,30 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../util/database");
+const User = require("./userModel");
+const GroupMember = require("./groupMembers");
 
-const groupModel = sequelize.define("groups", {
-
-    id: {
+const Group = sequelize.define("group", {
+    id:{
         type: Sequelize.INTEGER,
-        allowNull: false,
         autoIncrement: true,
+        allowNull: false,
         primaryKey: true,
     },
-    name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-    },
-    image: {
-        type: Sequelize.STRING,
-    },
-    limit: {
+    adminId: {
         type: Sequelize.INTEGER,
         allowNull: false,
     },
-    
+    groupName: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
 });
 
-module.exports = groupModel;
+Group.belongsTo(User, { foreignKey: 'adminId', as:'admin' });
+User.hasMany(Group,{foreignKey: "id"})
+
+Group.hasMany(GroupMember, { foreignKey: 'groupId', as: 'members' });
+GroupMember.belongsTo(Group, { foreignKey: 'groupId', as: 'group' })
+
+
+module.exports = Group;

@@ -18,7 +18,7 @@ document.getElementById("signup_form").addEventListener("submit", async(e) => {
     }
 
     try {
-        const response = await axios.post("/user/signup", obj)
+        const response = await axios.post("/signup", obj)
 
         console.log(obj);
     if(response.status === 201) {

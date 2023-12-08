@@ -2,12 +2,14 @@ const express = require("express");
 
 const router = express.Router();
 
-const authMiddleware = require("../Middleware/auth");
+const authMiddleware = require("../Middleware/auth").authenticate;
 
 const chatController = require("../controllers/chatController");
 
-router.get("/messages", authMiddleware.authenticateToken, chatController.getMessages);
+router.post("/chats/send", authMiddleware,  chatController.sendMessage);
 
-router.post("/sendMessage", authMiddleware.authenticateToken, chatController.addNewMessage);
+// router.get("/chats/:userId/history",  chatController.getChatHistory);
+
+router.get("/chats/groups/:groupId/history", chatController.getGroupChatHistory);
 
 module.exports = router;

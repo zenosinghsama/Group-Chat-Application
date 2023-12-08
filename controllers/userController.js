@@ -73,7 +73,31 @@ const postLogin = async (req, res, next) => {
     }
 }
 
+// GET ALL USERS
+const getAllUsers = async (req, res, next ) => {
+    try {
+        const users = await User.findAll();
+
+        if(!users) {
+            return res.status(404).json({ message: "Users not found"});
+        }
+
+        const userDetails = users.map(user => ({
+            id: user.id,
+            username: user.name,
+            email: user.email,
+            phoneNumber: user.phoneNumber
+        }));
+
+        return res.status(200).json({ success: true, users: userDetails });
+    } catch (err) {
+        console.error('Error getting users:', err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}  
+
 module.exports = {
     createNewUser,
-    postLogin
+    postLogin,
+    getAllUsers,
 }

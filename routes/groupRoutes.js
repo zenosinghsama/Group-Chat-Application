@@ -2,14 +2,14 @@ const express = require("express");
 
 const router = express.Router();
 
-const authMiddleware = require("../Middleware/auth");
+const authMiddleware = require("../Middleware/auth").authenticate;
 
 const groupController = require("../controllers/groupController");
 
-router.get("/groups", groupController.loadGroups);
+router.post("/groups/create", groupController.createGroup);
 
-router.post("/groups", groupController.createNewGroup);
+router.get("/groups/user",authMiddleware, groupController.getUserGroups);
 
-router.get("/groups/:groupId/join", groupController.joinGroupById)
+router.post("/groups/members/add", authMiddleware,  groupController.addMember);
 
 module.exports = router;

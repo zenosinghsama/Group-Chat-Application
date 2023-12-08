@@ -10,7 +10,7 @@ document.getElementById("login_form").addEventListener("submit", async(e) => {
     }
 
     try {
-        const response = await axios.post("/user/login", obj);
+        const response = await axios.post("/login", obj);
 
         const token = response.data.token;
         const id = response.data.id;
@@ -19,7 +19,7 @@ document.getElementById("login_form").addEventListener("submit", async(e) => {
             localStorage.setItem('Token', token);
             localStorage.setItem('ID', id);
         
-            window.location.href = "/groupManagement.html";
+            window.location.href = "/home.html";
         }
     } catch (err) {
         if (err.response.status === 500) {

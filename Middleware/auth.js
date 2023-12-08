@@ -1,33 +1,33 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const User = require('../model/userModel');
 
-exports.authenticateToken = (req, res, next) => {
+exports.authenticate = async (req, res, next) => {
 
   try {
-    const token = req.header('Authorization');
-    console.log(token);
+    const authorizationHeaders = req.headers.authorization;
 
-    const user = jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-      if(err) {
-        console.log('JWT VERIFICATION ERROR: ', err.message);
-        return res.status(401).json({ success: false, message: 'AUTHENTICATION FAILED'});
-      }
-      console.log('userID is: ', decoded.userId);
-      return decoded;
-    });
+    if(!authorizationHeaders) {
+      return res.status(401).json({ success: false, message: 'AUTHORIZATION HEADER MISSING'});
+    }
 
-    console.log('userID>>>>', user.userId)
+    const token = authorizationHeaders.split('Bearer')[1].trim();
+    console.log("TOKEN",token);
 
-    User.findByPk(user.userId)
-    .then(user => {
+    if(!token) {
+      return res.status(401).json({ success: false, message: "TOKEN NOT FOUND"});
+    }
 
-      req.user = user;
-      next();
-      console.log(token,"VERIFIED TOKEN");
-    })
-    } 
-  catch (err) {
-    console.log("catch", err)
-    res.status(401).json({ success: false, message:'AUTHENTICATION FAILED'})
+    const decodedToken = jwt.verify((token), process.env.TOKEN_SECRET);
+    console.log('userId>>>>', decodedToken);
+
+    const user = await User.findByPk(decodedToken.userId);
+    console.log('User', user);
+    
+    req.user = user;
+    next();
+  } catch (err) {
+    console.log("JWT ERROR", err);
+    return res.status(401).json({ success: false, message: "login first" });
   }
 };
+
