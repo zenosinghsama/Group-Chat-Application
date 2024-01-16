@@ -5,9 +5,12 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path")
 const sequelize = require("./util/database");
+const { handleSocketEvents } = require('./socketEvents');
+
 const http = require('http');
 const socketIo = require('socket.io');
 
+//CREATE HTTP SERVER
 const server = http.createServer(app);
 const io = socketIo(server);
 
@@ -16,6 +19,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
+app.use('/Images', express.static(path.join(__dirname, 'images')));
 app.use(express.static(path.join(__dirname, "/views/")));
 
 app.get("/", (req, res, next) => {
@@ -64,17 +68,7 @@ User.hasMany(Notification, { foreignKey: 'receiverId' });
 Notification.belongsTo(User, { foreignKey: 'receiverId' });
 
 //SOCKET IO CONNECTIONS
-io.on('connection', (socket) => {
-
-  socket.on('joinGroup', (groupId, username) => {
-    console.log("NEW USER", userName);
-  })
-
-  socket.on('disconnect', () => {
-    console.log('USER DISCONNECTED', socket.id);
-  })
-})
-
+handleSocketEvents(io);
 
 //SERVER
 sequelize

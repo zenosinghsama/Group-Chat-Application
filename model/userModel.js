@@ -25,6 +25,14 @@ const User = sequelize.define("users", {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      imageUrl: {
+        type: Sequelize.STRING,
+        required: true,
+      },
+      isOnline: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      }
 });
 
 module.exports = User;

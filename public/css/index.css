@@ -1,160 +1,1141 @@
-/* Add your custom styles here */
 
 body {
-  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #00d7ff, #388ea1);
+  font-family: 'Open Sans', sans-serif;
   margin: 0;
   padding: 0;
-}
-
-#app {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-header {
-  background-color: #3498db;
-  color: #fff;
-  padding: 10px;
-  text-align: center;
-}
-
-button {
-  background-color: #3498db;
-  color: #fff;
-  padding: 10px 15px;
-  border: none;
-  cursor: pointer;
-}
-
-main {
-  margin-top: 20px;
-}
-
-section {
-  margin-bottom: 20px;
-}
-
-h2 {
-  color: #333;
-}
-
-form {
-  margin-top: 10px;
-}
-
-input,
-button {
-  margin-top: 10px;
-}
-
-#chat-messages {
-  max-height: 300px;
-  overflow-y: scroll;
-  border: 1px solid #ddd;
-  padding: 10px;
-}
-
-/* Customize as needed for your chat message styling */
-#chat-messages div {
-  margin-bottom: 10px;
-  padding: 5px;
-  background-color: #f2f2f2;
-  border-radius: 8px;
-}
-
-/* Add more styles for notification section, user info, etc. */
-
-/* Responsive styles */
-@media screen and (max-width: 600px) {
-  body {
-      font-size: 14px;
-  }
-}
-
-.responsive-divider {
-  width: 90%; /* Adjust as needed */
-  margin: auto;
-}
-
-/* Styles for the sidebar */
-#sidebar {
-    position: fixed;
-    top: 0;
-    left: -300px; /* Initially hidden */
-    width: 300px;
-    height: 100%;
-    background-color: #333;
-    overflow-x: hidden;
-    transition: 0.5s;
-}
-
-#sidebar a {
-    padding: 10px 15px;
-    text-decoration: none;
-    font-size: 18px;
-    color: white;
-    display: block;
-    transition: 0.3s;
-}
-
-#sidebar a:hover {
-    background-color: #555;
-}
-
-#sidebar-header {
-    background-color: #4CAF50;
-    padding: 15px;
-    color: white;
-    text-align: center;
-}
-
-/* Adjusted header styles for better alignment */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    background-color: #4CAF50;
-    color: white;
-}
-
-/* Toggle button styles */
-#sidebar-toggle {
-    background-color: transparent;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    color: white;
-}
-
-.h3, h3{
- font-size: 24px;
- color: antiquewhite;
- display: flex;
- align-items: center;
- justify-content: center;
- height: auto;
- margin-top: 10px;
-}
-
-.h6, h6{
-  font-size: 12px;
-  color: white;
-  display: flex;
- align-items: center;
- justify-content: center;
- cursor: pointer;
-}
-
-#sidebar {
-  display: flex;
-  flex-direction: column;
   height: 100%;
 }
 
-#logout-btn {
-  margin-top: auto;
-  align-self: center;
-  margin-bottom: 20px; /* Adjust as needed */
+/* Styles for the Header */
+header {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #2c3e50;
+  padding: 10px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+/* Styles for the Main Content */
+main {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  width: 80%;
+  margin: 10% auto;
+}
+
+/* Animation for button hover */
+button:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+/* Sidebar styles */
+#sidebar {
+  position: fixed;
+  background: linear-gradient(to right,#2c2c2c, #386b81);
+  color: #fff;
+  padding: 10px;
+  height: 100%;
+  width: 300px;
+  overflow-y: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
+  transform: translateX(-100%);
+  transition: transform 0.3s;
+}
+
+/* Style the sidebar toggle button */
+#sidebar-toggle {
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+}
+
+/* Add transition to sidebar for smooth animation */
+#sidebar.open {
+  transform: translateX(0);
+}
+
+/* Style the menu header */
+#sidebar-header h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #fff;
+}
+
+/* Style the create group button */
+#createGroupModal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 600px;
+  width: 100%;
+  padding: 30px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Add additional styling as needed */
+
+.modal-dialog {
+  margin: 0;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Animation for modal dialog */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#createGroupForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+}
+
+/* Add additional styling as needed */
+
+
+#createGroupBtn {
+  font-size: 20px;
+  background-color: #10446e;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#createGroupBtn:hover {
+  background-color: #94d4ff;
+  transform: scale(1.1);
+}
+
+/* DIVIDER STYLE */
+.responsive-divider {
+  border: none;
+  height: 1px; 
+  background: linear-gradient(to right, #3498db, #2ecc71, #FF69B4);
+  margin: 20px 0; 
+}
+
+.h3, h3{
+  text-align: center;
+  color: #ebebeb;
+  transition: color 0.3s ease;
+}
+#user-list h3,
+#chat-rooms h3 {
+  font-size: 16px;
+  color: #e2e2e2;
+  transition: transform 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+#user-list h6:hover,
+#chat-rooms h6:hover {
+  transform: scale(1.1);
+  color: #a5d2ff;
+}
+
+/* Style the user list and chat rooms */
+#user-list,
+#chat-rooms {
+  color: #e2e2e2;
+    padding: 10px;
+}
+
+/* Style the h6 headings to be more elegant */
+#user-list h6,
+#chat-rooms h6 {
+    font-size: 16px;
+    color: #e2e2e2; 
+    transition: transform 0.3s ease; 
+    cursor: pointer;
+}
+
+/* Hover effect for h6 headings */
+#user-list h6:hover,
+#chat-rooms h6:hover {
+    transform: scale(1.1); 
+}
+
+/* Hover effect on menu items and logout button */
+
+#createGroupBtn:hover {
+  background-color: #10446e; 
+}
+
+/* Style the modal content */
+.modal-title{
+  display: flex;
+  flex-direction: row;
+}
+.modal-content {
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  animation: slideIn 0.5s ease-out;
+}
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal Close Button */
+.modal-close-btn {
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  font-size: 18px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transition: color 0.3s ease;
+}
+
+.modal-close-btn:hover {
+  color: #e74c3c;
+}
+
+/* Style for the "Create Group" button at the top */
+.createGrpBtn {
+  font-size: 20px;
+  background-color: #10446e; 
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px; 
+  width: 100%;
+}
+
+#homePage {
+  background-color: #10446e; 
+  color: #fff; 
+  padding: 8px; 
+  font-size: 16px; 
+  text-align: center;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#homePage:hover {
+  background-color: #94d4ff; 
+}
+
+
+/* Style for the "Logout" button at the bottom */
+.logoutBtn {
+  font-size: 16px;
+  padding: 8px;
+  background-color: #e74c3c; 
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 94%;
+  position: absolute;
+  bottom: 140px;
+  transition: background-color 0.3s ease;
+}
+
+.logoutBtn:hover {
+  background-color: #910f01; 
+}
+
+/* Style the chat section */
+
+#chat-section {
+  flex: 1;
+  padding: 20px;
+  background-color: #ecf0f1;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+#chat-section form {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+/* Style the chat messages */
+#chat-messages {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  max-height: 250px; 
+}
+
+/* Style individual chat messages */
+.message {
+  float: right;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+
+
+/* Style the chat input form */
+form {
+  display: flex;
+  margin-top: 10px;
+}
+
+/* Style the send button */
+.send-button {
+  background-color: #2ecc71;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Position the notification icon at the top right */
+#notification-icon {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.welcome-item {
+  background-color: #10446e; 
+  color: #fff; 
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  animation: fadeInOut 5s ease-in-out forwards;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.notification-item {
+  background-color: #10446e; 
+  color: #fff; 
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Style the chat box container */
+#chatBox-container {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  padding: 20px;
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 300px; 
+}
+
+/* Style individual chat box messages */
+.chat-box-message {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* Style the user avatar in the chat box */
+.chat-box-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* Style the message content in the chat box */
+.chat-box-content {
+  background-color: #137fa0;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Style the timestamp in the chat box */
+.chat-box-timestamp {
+  font-size: 12px;
+  color: #a9b4c0;
+  margin-left: auto;
+}
+
+/* Style the chat input form in the chat box */
+#chatBox-container form {
+  display: flex;
+  margin-top: 10px;
+}
+
+/* Style the new message input field in the chat box */
+#newMessage {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+/* Style the send button in the chat box */
+#chatBox-container .send-button {
+  background-color: #2ecc71;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#clients-total {
+  text-align: center;
+  margin-top: 5px;
+}
+
+/* Style the group names to be more elegant */
+.group-div {
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  color: #000000; 
+  transition: transform 0.3s ease; 
+  cursor: pointer;
+}
+
+
+.user-div {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  color: #000000; 
+  transition: transform 0.3s ease; 
+  cursor: pointer;
+}
+
+
+/* Hover effect for group names */
+.group-div:hover {
+  transform: scale(1.1);
+}
+
+/* Style individual chat messages */
+.message-left {
+  float: left;
+  clear: both;
+  background-color: #3498db; 
+  color: #fff;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.message-right {
+  float: right;
+  clear: both;
+  background-color: #2ecc71; 
+  color: #fff;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.center {
+  text-align: center;
+  color: #000000;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #e0e0e0;
+  margin: 10px 0;
+}
+
+.user-div span {
+  margin-right: 10px;
+}
+
+.user-div:hover {
+  transform: scale(1.1);
+}
+/* Add styles for unread messages */
+.group-div.unread::before {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+}
+
+/* Add styles for unread count */
+.group-div.unread-count {
+  background-color: red; 
+  color: white; 
+  border-radius: 50%;
+  padding: 2px 6px;
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Add this to your existing CSS file or style section */
+#notification-icon {
+  position: absolute;
+}
+
+.notification-indicator {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
+  background-color: red; /* Choose your desired color */
+  border-radius: 50%;
+  display: none; /* Initially hide the indicator */
+}
+
+/* Share Modal */
+#shareModal {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  justify-content: center; 
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  max-height: 80vh;
+  padding: 20px;
+  background-color: #10446e;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+#shareModal .modal-content {
+  text-align: center;
+  color: black; 
+}
+
+#shareModal h2 {
+  margin-bottom: 20px;
+}
+
+#shareModal p {
+  margin-bottom: 20px;
+}
+
+#shareModal input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd; 
+}
+
+#shareModal button {
+  background-color: #2ecc71;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#inviteLink {
+  text-align: center;
+}
+
+#shareModal button:hover {
+  background-color: #27ae60; 
+}
+
+/* Keyframe for fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* VERTICAL CONTAINER */
+/* Container for both divs */
+
+#homepageContainer {
+  display: flex;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+/* VERTICAL CONTAINER */
+.vertical-container {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+
+/* Style the individual chat/user elements */
+#recentGroupDiv div,
+#usersDiv div {
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#groupDiv {
+  margin-top: 5px;
+  border: 1px solid #070707;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* Optional: Add some spacing between the containers */
+#recentGroupsContainer {
+  flex: 1;
+  margin-right: 10px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+#userDivContainer {
+  flex: 1; 
+  margin: 10px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+#recentGroupsContainer:hover,
+#userDivContainer:hover {
+  transform: scale(1.05); /* Increase size on hover */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow on hover */
+}
+
+/* Notification Modal */
+#notification-modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  animation: scaleIn 0.3s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+      transform: scale(0);
+  }
+  to {
+      transform: scale(1);
+  }
+}
+
+/* SHARE INV NOTIFICATION */
+.notification {
+  padding: 15px;
+  background-color: #3498db;
+    color: #ffffff;
+    border-radius: 8px;
+    border: 2px solid #2980b9;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeInUp 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+      opacity: 0;
+      transform: translateY(-20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Notification Bell Animation */
+#notification-bell {
+  transition: transform 0.3s ease-out;
+}
+
+#notification-bell[disabled] {
+  transform: scale(1.2); 
+}
+
+/* Bell Animation */
+.animate {
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+  }
+  40% {
+      transform: translateY(-10px);
+  }
+  60% {
+      transform: translateY(-5px);
+  }
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* Add this to your CSS file or style section in your HTML */
+.btn-primary {
+  float: right;
+  background-color: #007bff;
+  color: #fff;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-primary-addUsers {
+  background-color: #007bff;
+  color: #fff;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* Optionally, you can add hover styles for better user feedback */
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.btn-primary-addUsers:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+
+#shareGroupBtn {
+  float:right;
+  margin-left: 10px;
+  background-color: #3494e6;
+  color: #fff;
+  cursor: pointer;
+  padding: auto;
+  border-radius: 4px;
+  border: 1px solid #3494e6;
+}
+
+/* Styling for the modal overlay */
+#groupDetailsModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Styling for the modal content */
+#groupDetailsModalContent {
+  background-color: #fff; /* White background */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow for a subtle lift effect */
+  max-width: 400px; /* Adjust the maximum width as needed */
+}
+
+/* Styling for the option container inside the modal */
+.edit-options-container {
+  font-size: x-small;
+  margin-left: 180px;
+}
+
+/* Styling for the group options */
+.group-option {
+  cursor: pointer;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #50c6db;
+  margin-bottom: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.group-option:hover {
+  background-color: #277886; /* Light gray background on hover */
+}
+
+
+.user-info-container {
+  display: flex;
+  align-items: center;
+  
+}
+
+.user-icon {
+  position: relative;
+  display: inline-block;
+}
+
+.user-options {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  background: linear-gradient(135deg, #3494e6, #ec6ead);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #fff;
+  min-width: 150px;
+  max-height: 400px;
+
+}
+
+.user-icon:hover .user-options {
+  display: block;
+}
+
+.edit-profile-btn,
+.logout-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-profile-btn:hover,
+.logout-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+#user-name {
+  font-size: 18px; 
+  font-weight: bold; 
+  color: #333; 
+  margin-left: 10px; 
+}
+
+/* Divider Styles */
+.divider {
+  height: 1px;
+  width: 100%;
+  background-color: #ccc; 
+  margin: 10px 0; 
+}
+
+/* Add this to your existing CSS file */
+.welcome-container {
+  background-color: #1e162378;
+  padding: 50px;
+  text-align: center;
+  color: #ecf0f1;
+}
+
+.welcome-message h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  animation: fadeInUp 1s ease-out;
+}
+
+.welcome-message p {
+  font-size: 1.2em;
+  animation: fadeInUp 1.5s ease-out;
+}
+
+/* Animation Keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add this to your existing CSS file or style section */
+.quick-action-toolbar-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #2c3e50;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  animation: slide-in 0.5s ease-out;
+}
+
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.quick-action-button {
+  background-color: #ecf0f1;
+  color: #34495e;
+  border: none;
+  padding: 8px;
+  margin-right: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:  background-color 0.3s ease, transform 0.2s ease;
+  position: relative;
+}
+
+.quick-action-button span {
+  position: absolute;
+  top: -30px; 
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: white;
+  white-space: nowrap;
+  opacity: 0; 
+  transition: opacity 0.3s ease-in-out;
+}
+
+.quick-action-button:hover span {
+  opacity: 1;
+}
+
+.quick-action-button:hover {
+  background-color: #3498db;
+  color: #fff;
+  transform: scale(1.2) rotate(360deg);
+}
+
+.quick-action-button i {
+  font-size: inherit;
+}
+
+#search-button {
+  background-color: #e74c3c;
+  color: #34495e;
+  border: none;
+  padding: 8px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  animation: zoom-in 0.5s ease-in infinite alternate;
+}
+
+  #search-button:hover {
+    background-color: #3498db;
+    color: #fff;
+    transform: scale(1.2) rotate(360deg); 
+  }
+
+  @keyframes zoom-in {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.2);
+    }
+  }
+
+  #search-button span {
+    top: -30px;
+  }
+
+  
+  #search-button:hover span {
+    opacity: 1; 
+    color: white;
+  }
+
+  #user-profile-image {
+    position: relative;
+    width: 100px; 
+    height: 100px; 
+    border-radius: 50%; 
+    overflow: hidden; 
+  }
+  
+  #user-profile-image img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    display: block; 
+    
+  }
+
+  #user-profile-image button {
+    display: none;
+    position: absolute;
+    color: #000000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1; 
+}
+
+#user-profile-image:hover img {
+  filter: blur(5px); 
+}
+  
+  /* Add these styles to your CSS file or style tag */
+.group-image {
+  width: 100px; 
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover; 
+    margin-right: 10px;
 }

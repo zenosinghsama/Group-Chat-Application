@@ -11,7 +11,6 @@ exports.authenticate = async (req, res, next) => {
     }
 
     const token = authorizationHeaders.split('Bearer')[1].trim();
-    console.log("TOKEN",token);
 
     if(!token) {
       return res.status(401).json({ success: false, message: "TOKEN NOT FOUND"});
@@ -21,7 +20,6 @@ exports.authenticate = async (req, res, next) => {
     console.log('userId>>>>', decodedToken);
 
     const user = await User.findByPk(decodedToken.userId);
-    console.log('User', user);
     
     req.user = user;
     next();

@@ -5,22 +5,29 @@ document.getElementById("signup_form").addEventListener("submit", async(e) => {
     const phoneNumber = document.getElementById("phoneInput").value;
     const password = document.getElementById("passwordInput").value;
 
+    const userImageInput = document.getElementById('userImageInput');
+    const userImage = userImageInput.files[0];
+
+    console.log('Before FormData:', name, email, phoneNumber, password, userImage);
+
     if(name === "" || email === "" || phoneNumber === "" || password === "") {
         alert("ALL FIELDS MANDATORY");
         return;
     }
 
-    const obj = {
-        name: name,
-        email: email,
-        phoneNumber: phoneNumber,
-        password: password
-    }
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('phoneNumber', phoneNumber);
+    formData.append('password', password);
+    formData.append('profileImage', userImage);
 
+    console.log('After FormData:', formData);
     try {
-        const response = await axios.post("/signup", obj)
+        const response = await axios.post("/signup", formData);
 
-        console.log(obj);
+        console.log("RESPONSE",response);
+
     if(response.status === 201) {
         alert("SUCCESSFULLY SIGNED UP")
         window.location.href = "/login.html";
@@ -31,4 +38,5 @@ document.getElementById("signup_form").addEventListener("submit", async(e) => {
     console.log(err);
 }
 })
+
 

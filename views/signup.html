@@ -22,7 +22,7 @@
                     <h1 class="text text-large">Create Account</h1>
                     <p class="text text-normal">Existing User? <span><a href="./login.html" class="text text-links">Login Here</a> </span></p>
                 </div>
-                <form id="signup_form" class="form">
+                <form id="signup_form" class="form" enctype="multipart/form-data" method="post">
                     <div class="input-control">
                         <label for="name" class="input-label" hidden>Name</label>
                         <input type="text" name="name" id="nameInput" placeholder="Enter Name" required>
@@ -41,6 +41,12 @@
                     <div class="input-control">
                         <label for="password" class="input-label" hidden>Password</label>
                         <input type="password" name="password" id="passwordInput" placeholder="Enter Your Password" required>
+                    </div>
+
+                    <div class="input-control">
+                        <label for="userImage" class="input-label" hidden>Profile Image</label>
+                        <input type="file" accept="image/jpeg, image/png, image/jpg" name="profileImage" id="userImageInput"/>
+                        <img id="previewImage" src="" alt="Preview Image" style="max-width: 100%; display: none;">
                     </div>
                     
                     <div class="input-control">

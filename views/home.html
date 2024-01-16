@@ -1,149 +1,415 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home Page</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <!-- EXTERNAL STYLESHEET -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="/css/index.css">
-</head>
-<body>
-
-<div id="app">
-    <header>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Open+Sans"
+    />
+    <!-- INTERNAL STYLESHEET -->
+    <link rel="stylesheet" href="/css/index.css" />
+  </head>
+  <body>
+    <div id="app" class="app-container">
+      <div id="quick-action-toolbar" class="quick-action-toolbar-container">
+        <button onclick="openCreateGroupModal()" class="quick-action-button">
+          <i class="fas fa-plus"></i>
+          <span >Create Group</span>
+        </button>
+        <button class="quick-action-button" id="search-button">
+          <i class="fas fa-search"></i>
+          <span>Search</span>
+        </button>
+        <button onclick="openNotificationModal()" class="quick-action-button">
+          <i class="fas fa-bell"></i>
+          <span>Notifications</span>
+        </button>
+      </div>
+      <header class="app-header">
         <!-- SIDEBAR TOGGLE BUTTON -->
-        <button id="sidebar-toggle">&#9776; </button>
-        <h1>Group Chat Application</h1>
+        <button id="sidebar-toggle" class="sidebar-toggle-btn">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <h1 class="app-title">Group Chat Application</h1>
         <!-- USER INFO -->
-        <div id="user-info">
-            <!-- USER INFO GOES HERE-->
+        <div id="user-info" class="user-info-conatiner">
+          <div id="user-icon" class="user-icon">
+            <i class="fa-solid fa-user">  </i>
+            <div id="user-profile-image" class="profile-image"></div>
+              <div id="user-name" class="user-name">
+                <!-- DISPLAY USERNAME -->
+              </div>
+            <div id="user-options" class="user-options">
+              <button id="edit-profile" class="edit-profile-btn">
+                Edit Profile
+              </button>
+              <div class="divider"></div>
+              <button onclick="logout()" id="logout" class="logout-btn">
+                Log Out
+              </button>
+            </div>
+          </div>
+          <!-- USER INFO GOES HERE-->
         </div>
-    </header>
+      </header>
 
-    <!-- SIDEBAR -->
-    <div id="sidebar">
-        <div id="sidebar-header">
-            <h2>Menu</h2>
-            <button id="createGroupBtn" data-toggle="modal" data-target="#createGroupModal">+</button>
+      <!-- SIDEBAR -->
+      <div id="sidebar" class="sidebar-conatiner">
+        <div id="sidebar-header" class="sidebar-header-container">
+          <button
+            id="createGroupBtn"
+            data-toggle="modal"
+            data-target="#createGroupModal"
+            class="createGrpBtn"
+          >
+            +
+          </button>
         </div>
-        <hr class="responsive-divider">
+        <hr class="responsive-divider" />
+        <div id="homePage" class="homePage">DashBoard</div>
+        <hr class="responsive-divider" />
         <!-- USER LIST -->
-        <h3>Users</h3>
-        <div id="user-list">
-            <!-- USERS WILL APPEAR HERE -->
+        <h3 class="sidebar-heading">Users</h3>
+        <div id="user-list" class="user-list-conatiner">
+          <!-- USERS WILL APPEAR HERE -->
         </div>
-        <hr class="responsive-divider">
+        <hr class="responsive-divider" />
         <!-- CHAT ROOMS LIST -->
-        <h3>Groups</h3>
-        <div id="chat-rooms">
-            <!-- CHAT ROOMS WILL APPEAR HERE -->
+        <h3 class="sidebar-heading">Groups</h3>
+        <div id="chat-rooms" class="chat-rooms-conatiner">
+          <!-- CHAT ROOMS WILL APPEAR HERE -->
         </div>
-        <hr class="responsive-divider">
+        <hr class="responsive-divider" />
         <!-- LOGOUT -->
-        <button onclick="logout()">Logout</button>
-    </div>
+        <button class="logoutBtn" onclick="logout()">Logout</button>
+      </div>
 
-    <main>
-        <section id="group-section">
-            <form onsubmit="createGroup(event)">
-                <input id="newGroupName" placeholder="Enter Group Name" required>
-                <button type="submit">Create Group</button>
-            </form>
-        </section>
-
-        <section id="chat-section">
-            <h2>Chat</h2>
-            <div id="chat-messages">
-                <!-- CHAT MESSAGES GO HERE -->
-            </div>
-            <div id="chatBox-container"></div>
-            <form onsubmit="sendMessage(event)">
-                <input id="newMessage" placeholder="Type your message...">
-                <button type="submit">Send</button>
-            </form>
-        </section>
-
-        <section id="notification-section">
-            <h2>Notifications</h2>
-            <ul>
-                <!-- NOTIFICATION GO HERE -->
-            </ul>
-        </section>
-    </main>
-
-    <!-- MODAL FOR CREATING A GROUP -->
-    <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createGroupModalLabel">Create Group</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- Form for creating a group goes here -->
-                    <form onsubmit="createGroupFromModal(event)">
-                        <div class="form-group">
-                            <label for="newGroupNameModal">Group Name:</label>
-                            <input type="text" class="form-control" id="newGroupNameModal" placeholder="Enter Group Name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="groupImage">Group Image URL:</label>
-                            <input type="text" class="form-control" id="groupImage" placeholder="Enter Image URL">
-                        </div>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUsersModal" onclick="displayUsersInModal()">
-                            Add Users
-                        </button>
-                        <button type="submit" class="btn btn-primary">Create Group</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
+      <div id="welcome-section" class="welcome-container">
+        <div class="welcome-message">
+          <h2>Welcome to the Group Chat Application!</h2>
+          <p>Join the conversation and connect with others in real-time.</p>
         </div>
-    </div>  
-</div>
+      </div>
 
-<!-- ADD USERS MODAL -->
-<div class="modal fade" id="addUsersModal" tabindex="-1" role="dialog" aria-labelledby="addUsersModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+      <div id="notification-bar" class="notification-container">
+        <h2 id="notification" class="notification-heading">Notifications</h2>
+        <!-- BELL ICON FOR NOTIFICATION -->
+        <i class="fas fa-bell" id="notification-bell"></i>
+        <!-- NOTIFICATION INDICATOR -->
+        <span
+          class="notification-indicator"
+          id="notification-indicator"
+        ></span>
+        <!-- UNREAD COUNT -->
+        <span class="unread-count" id="unread-count">0</span>
+        <ul class="notification-list" id="notification-list">
+          <!-- NOTIFICATION GO HERE -->
+        </ul>
+      </div>
+
+       <!-- COMPONENTS FOR HOMEPAGE -->
+       <div id="homepageContainer">
+       <div id="recentGroupsContainer" class="vertical-container">
+        <h3>RECENT CHATS</h3>
+        <div id="recentGroupDiv"></div>
+      </div>
+
+      <div id="userDivContainer" class="user-vertical-container">
+        <h3>USERS</h3>
+        <div id="usersDiv"></div>
+      </div>
+       </div>
+
+      <main class="app-main">
+        
+        <section id="chat-section" class="chat-section-container">
+          <h2 id="chat-heading" class="chat-heading">
+            Chat
+            <button
+              id="group-info-btn"
+              class="info-button"
+              data-toggle="modal"
+              data-target="#groupDetailsModal"
+            >
+              i
+            </button>
+          </h2>
+          <button id="shareGroupBtn" onclick="openShareModal()">Share</button>
+          <h3 class="clients-total" id="clients-total">Users Online:</h3>
+          <div id="chat-messages" class="chat-messages-conatiner">
+            <div class="message-feedback"></div>
+          </div>
+          <div
+            id="chatBox-container"
+            class="chat-box-container message-container"
+          >
+            <!-- CHAT MESSAGES GO HERE -->
+          </div>
+          <form onsubmit="sendMessage(event)" class="message-form">
+            <input id="newMessage" placeholder="Type your message..." />
+            <button type="submit" class="send-button">
+              Send<span><i class="fas fa-paper-plane"></i></span>
+            </button>
+          </form>
+        </section>
+       
+      </main>
+
+          <!-- Notification Modal -->
+          <div id="notification-modal" class="modal">
+            <div class="modal-content">
+              <span
+                id="close-button"
+                class="close"
+                onclick="closeNotificationModal()"
+                >&times;</span
+              >
+              <h2>Notifications</h2>
+              <ul class="notification-list-modal" id="notification-list-modal">
+                <!-- NOTIFICATION GO HERE -->
+              </ul>
+            </div>
+          </div>
+
+      <!-- MODAL FOR CREATING A GROUP -->
+      <div
+        class="modal fade"
+        id="createGroupModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="createGroupModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addUsersToGroupModalLabel">Add users to the group</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+              <h5 class="modal-title" id="createGroupModalLabel">
+                Create Group
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-            <div class="modal-body">
-                <!-- Form for adding users to a group goes here -->
-                <form onsubmit="addUsersToNewGroup(event)" method="post">
-                    <input type="text" name="groupId" value="" hidden/>
-                    <div class="form-group">
-                        <label for="userInputField">Email or Username:</label>
-                        <input type="search" class="form-control" id="userIdOrUsername" placeholder="Enter Email or username..." required />
-                    </div>
+            <di class="modal-body">
+              <!-- Form for creating a group goes here -->
+              <form id="createGroupForm" enctype="multipart/form-data">
+                <div class="form-group">
+                  <label for="newGroupNameModal">Group Name:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="newGroupNameModal"
+                    placeholder="Enter Group Name"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="groupImage" hidden>Group Image:</label>
+                  <input
+                    type="file"
+                    accept="image/jpeg, image/png, image/jpg"
+                    name="groupImage"
+                    id="groupImageInput"
+                  />
+                </div>
+              </form>
 
-                    <!-- LIST OF USERS -->
-                    <ul class="list-group list-group-flush" id="usersList">
-                        <!-- USERS WILL BE ADDED HERE -->
-                    </ul>
-                </form>
-                
-            </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" onclick="addUsersToNewGroup(event)">Submit</button>
+              <button
+              type="button"
+              class="btn btn-primary"
+              data-toggle="modal"
+              data-target="#addUsersModal"
+              onclick="displayUsersInModal()"
+            >
+              Add Users
+            </button>
+
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
             </div>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
-</div>
- 
-    <script src="/js/index.js"></script>
+
+    <!-- ADD USERS MODAL -->
+    <div
+      class="modal fade"
+      id="addUsersModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="addUsersModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addUsersToGroupModalLabel">
+              Add users to the group
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+              id="closeAddUsersModal"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Form for adding users to a group goes here -->
+            <form onsubmit="addUsersToNewGroup(event)" method="post">
+              <input type="text" name="groupId" value="" hidden />
+              <div class="form-group">
+                <label for="userInputField">Email or Username:</label>
+                <input
+                  type="search"
+                  class="form-control"
+                  id="userIdOrUsername"
+                  placeholder="Enter Email or username..."
+                  required
+                />
+              </div>
+
+              <!-- LIST OF USERS -->
+              <ul class="list-group list-group-flush" id="usersList">
+                <!-- USERS WILL BE ADDED HERE -->
+              </ul>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              onclick="addUsersToNewGroup(event)"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GROUP DETAILS MODAL -->
+    <div
+      class="modal fade"
+      id="groupDetailsModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="groupDetailsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="groupDetailsModalLabel">
+              Group Details
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id="groupDetailsGroupName"></p>
+            <ul id="groupDetailsUserList"></ul>
+            <div id="appendUsersToAdd"></div>
+          </div>
+          <div class="modal-footer" id="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHARE MODAL -->
+    <div id="shareModal" class="shareGroupModal" style="display: none;">
+      <div class="modal-content">
+        <span class="close" onclick="closeShareModal()">&times;</span>
+        <h2>Share Group Invite</h2>
+        <div id="shareContent">
+          <div id="inviteLinkContainer">
+            <p>Invite Link</p>
+            <input type="text" id="inviteLink" readonly />
+            <button onclick="copyToClipboard()">Copy</button>
+          </div>
+          <div id="userListContainer">
+            <p>Select Users To Invite:</p>
+            <ul id="userList"></ul>
+            <button onclick="sendInvites()">Send Invites</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+    
+
+    <script src="https://cdn.socket.io/4.1.3/socket.io.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
-</body>
+    <script src="/js/index.js"></script>
+  </body>
 </html>
